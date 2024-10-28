@@ -41,7 +41,7 @@ class PersianElementorCore {
             add_action('admin_enqueue_scripts', array($this, 'enqueue_rtl_styles'));
         }
         if (!empty($this->options['efa-all-font'])) {
-            add_action('elementor/frontend/after_enqueue_styles', array($this, 'enqueue_cdn_font'));
+            add_action('elementor/frontend/after_enqueue_styles', array($this, 'enqueue_persian_font'));
         }
         if (!empty($this->options['efa-flatpickr'])) {
             add_action('elementor/frontend/before_enqueue_styles', array($this, 'enqueue_frontend_styles'));
@@ -64,7 +64,7 @@ class PersianElementorCore {
         wp_enqueue_style('persian-elementor-rtl', plugins_url("assets/css/$style_suffix", __FILE__), array(), $this->version);
     }
 
-    public function enqueue_cdn_font() {
+    public function enqueue_persian_font() {
         wp_enqueue_style('persian-elementor-font', plugins_url('assets/css/font.css', __FILE__), array(), $this->version);
     }
 

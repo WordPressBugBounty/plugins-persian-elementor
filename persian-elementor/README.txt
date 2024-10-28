@@ -3,9 +3,9 @@ author: المنتور فارسی
 Contributors: mohammadr3z
 Tags: elementor,persian,المنتور
 Requires at least: 5.0
-Tested up to: 6.6.1
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.6.5
+Stable tag: 2.7.6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Changelog ==
+= 2.7.6.6 =
+اضافه شدن ترجمه المنتور و المنتور پرو نسخه 3.25.0 
+
 = 2.7.6.5 =
 حذف آپارت و رفع مشکل
 

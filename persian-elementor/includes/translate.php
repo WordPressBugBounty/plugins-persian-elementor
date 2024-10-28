@@ -33,3 +33,4 @@ function load_persian_elementor_translations(): void {
 }
 
 add_action('init', 'load_persian_elementor_translations');
+
