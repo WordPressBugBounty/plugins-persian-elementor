@@ -14,9 +14,12 @@ add_action('admin_init', function(): void {
 
 // Add settings page
 add_action('admin_menu', function(): void {
+    $page_title = (get_locale() === 'fa_IR') ? 'تنظیمات المنتور فارسی' : 'Persian Elementor Settings';
+    $menu_title = (get_locale() === 'fa_IR') ? 'المنتور فارسی' : 'Persian Elementor';
+    
     add_menu_page(
-        'تنظیمات المنتور فارسی',
-        'المنتور فارسی',
+        $page_title,
+        $menu_title,
         'manage_options',
         'persian_elementor',
         'persian_elementor_settings_page',
