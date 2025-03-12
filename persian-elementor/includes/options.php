@@ -66,6 +66,20 @@ function persian_elementor_settings_page(): void {
         ],
     ];
 
+    // Add Widget Settings section
+    $widget_fields = [
+        'efa-aparat-video' => [
+            'label' => 'ویجت آپارات',
+            'desc' => 'با فعال کردن این گزینه، ویدیوی آپارات به ویجت ویدیو المنتور اضافه می‌شود.',
+            'icon' => 'dashicons-format-video',
+        ],
+        'efa-neshan-map' => [
+            'label' => 'ویجت نقشه نشان',
+            'desc' => 'با فعال کردن این گزینه، ویجت نقشه نشان به المنتور اضافه می‌شود.',
+            'icon' => 'dashicons-location-alt',
+        ],
+    ];
+
     $plugin_url = plugin_dir_url(dirname(__FILE__));
     
     // Enqueue WordPress core CSS
@@ -457,6 +471,33 @@ function persian_elementor_settings_page(): void {
                         </div>
                     </div>
                     
+                    <!-- New Widget Settings Section -->
+                    <div class="persian-elementor-card">
+                        <div class="persian-elementor-card-header">
+                            <h2>تنظیمات ویجت ها</h2>
+                        </div>
+                        <div class="persian-elementor-card-body">
+                            <?php foreach ($widget_fields as $key => $field) : ?>
+                                <div class="persian-elementor-settings-row">
+                                    <div class="persian-elementor-settings-icon">
+                                        <span class="dashicons <?php echo esc_attr($field['icon']); ?>"></span>
+                                    </div>
+                                    <div class="persian-elementor-settings-content">
+                                        <div class="persian-elementor-settings-title"><?php echo esc_html($field['label']) ?></div>
+                                        <p class="persian-elementor-settings-description"><?php echo esc_html($field['desc']) ?></p>
+                                    </div>
+                                    <div class="persian-elementor-settings-control">
+                                        <label class="persian-elementor-toggle">
+                                            <input type="hidden" name="persian_elementor[<?php echo esc_attr($key) ?>]" value="0" />
+                                            <input type="checkbox" name="persian_elementor[<?php echo esc_attr($key) ?>]" value="1" <?php checked(1, $options[$key] ?? 1) ?> />
+                                            <span class="persian-elementor-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    
                     <button type="submit" class="persian-elementor-submit">ذخیره تنظیمات</button>
                 </form>
             </div>
@@ -482,11 +523,11 @@ function persian_elementor_settings_page(): void {
                 <div class="features-grid">
                     <div class="feature-item">
                         <h4>۳۱ فونت حرفه‌ای فارسی</h4>
-                        <p>دسترسی به فونت‌های محبوب ایران سنس، یکان، دیما و بیشتر</p>
+                        <p>دسترسی به فونت‌های محبوب ایران سنس، یکان، فرهنگ و بیشتر</p>
                     </div>
                     <div class="feature-item">
                         <h4>قالب‌های آماده اختصاصی</h4>
-                        <p>دسترسی به قالب‌های آماده و حرفه‌ای مخصوص کسب و کارهای ایرانی</p>
+                        <p>دسترسی یه قالب های تمپلی <a href="https://temply.ir/" target="_blank" style="color: #05047e; font-weight: bold; text-decoration: none;">https://temply.ir</a> با کد تخفیف EFA20</p>
                     </div>
                     <div class="feature-item">
                         <h4>پشتیبانی حرفه‌ای</h4>
