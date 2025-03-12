@@ -2,8 +2,8 @@
 /**
  * Plugin Name: المنتور فارسی
  * Plugin URI: 
- * Description: بسته فارسی ساز المنتور پرو با 13 فونت فارسی، تقویم شمسی و آیکون‌های ایرانی.
- * Version: 2.7.7.2
+ * Description: بسته فارسی ساز المنتور پرو با 13 فونت فارسی، فارسی ساز المنتور، المنتور پرو و آیکون‌های ایرانی.
+ * Version: 2.7.7.3
  * Author: المنتور فارسی
  * Author URI: 
  * Text Domain: persian-elementor
