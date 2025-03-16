@@ -130,7 +130,7 @@ function register_persian_elementor_neshan_map_widget($widgets_manager) {
                         esc_html__('کلید API نشان خود را وارد کنید. برای دریافت کلید به %s مراجعه کنید.', 'persian-elementor'),
                         '<a href="https://platform.neshan.org/panel/api-key" target="_blank">پنل نشان</a>'
                     ),
-                    'default' => 'web',
+                    'default' => 'web.',
                     'separator' => 'after',
                 ]
             );

@@ -3,7 +3,7 @@
  * Plugin Name: المنتور فارسی
  * Plugin URI: 
  * Description: بسته فارسی ساز المنتور پرو با 13 فونت فارسی، فارسی ساز المنتور، المنتور پرو و آیکون‌های ایرانی.
- * Version: 2.7.8
+ * Version: 2.7.9
  * Author: المنتور فارسی
  * Author URI: 
  * Text Domain: persian-elementor
@@ -44,6 +44,7 @@ final class Persian_Elementor {
 
     private function define_constants() {
         define('PERSIAN_ELEMENTOR', plugin_dir_path(__FILE__));
+        define('PERSIAN_ELEMENTOR_URL', plugin_dir_url(__FILE__));
     }
 
     public function load_textdomain() {
@@ -61,6 +62,11 @@ final class Persian_Elementor {
         
         // Load optional components based on settings
         $options = get_option('persian_elementor', []);
+        
+        // Add form fields functionality if enabled (default to enabled if option doesn't exist)
+        if ($options['efa-form-fields'] ?? true) {
+            $includes[] = 'includes/form-fields.php';
+        }
         
         // Add Aparat video integration if enabled (default to enabled if option doesn't exist)
         if ($options['efa-aparat-video'] ?? true) {
@@ -106,11 +112,9 @@ final class Persian_Elementor {
      * Display an admin notice for plugin configuration
      */
     public function admin_notice() {
-        // Check if user has dismissed the notice
-        $dismissed = get_transient('persian_elementor_notice_dismissed');
-        
-        // Don't show notice on the plugin's settings page or if dismissed
-        if ($dismissed || (isset($_GET['page']) && 'persian_elementor' === $_GET['page'])) {
+        // Check if user has dismissed the notice - check user meta instead of transient
+        if (get_user_meta(get_current_user_id(), 'persian_elementor_notice_dismissed', true) || 
+            (isset($_GET['page']) && 'persian_elementor' === $_GET['page'])) {
             return;
         }
         
@@ -149,8 +153,8 @@ final class Persian_Elementor {
         if (isset($_GET['persian-elementor-action']) && 'dismiss-notice' === $_GET['persian-elementor-action']) {
             check_admin_referer('persian_elementor_dismiss_notice');
             
-            // Set transient for 1 year (technically forever until plugin is deactivated)
-            set_transient('persian_elementor_notice_dismissed', true, YEAR_IN_SECONDS);
+            // Save dismissal as user meta (permanent) instead of transient
+            update_user_meta(get_current_user_id(), 'persian_elementor_notice_dismissed', true);
             
             // Redirect back to where user was
             wp_safe_redirect(remove_query_arg(['persian-elementor-action', '_wpnonce']));
