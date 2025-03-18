@@ -5,7 +5,7 @@ namespace PersianElementor;
 class PersianElementorCore {
     private static $instance = null;
     private $options;
-    private $version = '2.7.6.1'; 
+    private $version = '2.7.9.1'; 
 
     public static function instance() {
         if (self::$instance === null) {

@@ -1,8 +1,7 @@
 /* Define the Vazirmatn font */
 @font-face {
   font-family: 'Vazirmatn';
-  src: url('path/to/Vazirmatn-Regular.woff2') format('woff2'),
-       url('path/to/Vazirmatn-Regular.woff') format('woff');
+  src: url('font/VazirMatn/Vazirmatn-Regular.woff2') format('woff2'),
   font-weight: normal;
   font-style: normal;
 }
@@ -126,7 +125,6 @@ jdp-container .jdp-year, jdp-container .jdp-year input, jdp-container .jdp-year 
   padding: 0;
   margin: 0;
   display: inline-block;
-  font-size: inherit;
   font-family: inherit;
   vertical-align: initial;
   font-weight: 300;
@@ -195,13 +193,13 @@ jdp-container .jdp-day, jdp-container .jdp-day-name {
   position: relative;
   justify-content: center;
   text-align: center;
-  color: rgba(0, 0, 0, 0.9);
-  font-size: 16px;
+  color: #393939;
+  font-size: 15px;
   font-family: 'Vazirmatn', sans-serif; /* Apply Vazirmatn font */
 }
 
 jdp-container .jdp-day.today, jdp-container .jdp-day-name.today {
-  border-color: rgba(0, 0, 0, 0.3);
+  border-color: #959ea9;
 }
 
 jdp-container .jdp-day.selected, jdp-container .jdp-day-name.selected {
@@ -237,7 +235,7 @@ jdp-container .jdp-day:not(.disabled-day):hover {
 
 jdp-container .jdp-day-name {
   border-radius: 0;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 13px;
   cursor: default;
 }

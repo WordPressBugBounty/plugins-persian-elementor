@@ -40,6 +40,9 @@ class Persian_Elementor_Aparat_Integration {
         
         // Handle Aparat video rendering
         add_filter('elementor/widget/render_content', [$this, 'render_aparat_video'], 10, 2);
+        
+        // Add editor scripts for preview
+        add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
     }
     
     /**
@@ -319,6 +322,52 @@ class Persian_Elementor_Aparat_Integration {
     }
     
     /**
+     * Generate Aparat embed HTML
+     * 
+     * @param string $video_hash The Aparat video hash
+     * @param array $params The parameters for the iframe
+     * @return string The HTML for the embed
+     */
+    private function generate_aparat_embed_html($video_hash, $params) {
+        $iframe_src = add_query_arg(
+            $params,
+            'https://www.aparat.com/video/video/embed/videohash/' . esc_attr($video_hash) . '/vt/frame'
+        );
+
+        ob_start();
+        echo '<style>
+            .h_iframe-aparat_embed_frame {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+            .h_iframe-aparat_embed_frame .ratio {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            .h_iframe-aparat_embed_frame iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+            }
+        </style>';
+
+        echo '<div class="h_iframe-aparat_embed_frame">';
+        echo '<span style="display: block; padding-top: 57%"></span>';
+        printf(
+            '<iframe src="%s" allow="autoplay" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>',
+            esc_url($iframe_src)
+        );
+        echo '</div>';
+
+        return ob_get_clean();
+    }
+    
+    /**
      * Render Aparat video content
      */
     public function render_aparat_video($widget_content, $widget) {
@@ -378,38 +427,32 @@ class Persian_Elementor_Aparat_Integration {
             $params['t'] = $start_time;
         }
         
-        $iframe_src = add_query_arg(
-            $params,
-            'https://www.aparat.com/video/video/embed/videohash/' . esc_attr($video_hash) . '/vt/frame'
-        );
-
-        echo '<style>
-            .h_iframe-aparat_embed_frame {
-                position: relative;
-            }
-            .h_iframe-aparat_embed_frame .ratio {
-                display: block;
-                width: 100%;
-                height: auto;
-            }
-            .h_iframe-aparat_embed_frame iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-        </style>';
-
-        echo '<div class="h_iframe-aparat_embed_frame">';
-        echo '<span style="display: block; padding-top: 57%"></span>';
-        printf(
-            '<iframe src="%s" allow="autoplay" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>',
-            esc_url($iframe_src)
-        );
-        echo '</div>';
+        echo $this->generate_aparat_embed_html($video_hash, $params);
 
         return ob_get_clean();
+    }
+    
+    /**
+     * Add script for handling Aparat in Elementor editor preview
+     */
+    public function enqueue_editor_scripts() {
+        // Register script for editor preview
+        wp_enqueue_script(
+            'persian-elementor-aparat-editor',
+            plugins_url('/assets/js/aparat-editor.js', dirname(__FILE__)),
+            ['elementor-editor'],
+            '1.0.0',
+            true
+        );
+        
+        // Localize script with translation strings
+        wp_localize_script(
+            'persian-elementor-aparat-editor',
+            'persianElementorAparat',
+            [
+                'invalidUrl' => esc_html__('آدرس ویدیو آپارات معتبر نیست.', 'persian-elementor'),
+            ]
+        );
     }
 }
 

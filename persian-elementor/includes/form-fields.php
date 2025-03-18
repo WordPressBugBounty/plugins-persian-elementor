@@ -77,19 +77,11 @@ class Persian_Elementor_Form_Fields {
         // Use a fixed version number
         $version = '1.0.0';
         
-        // Register the original datepicker CSS - using local file instead of CDN
-        wp_register_style(
-            'persian-elementor-datepicker',
-            PERSIAN_ELEMENTOR_URL . 'assets/css/jalalidatepicker.min.css',
-            [],
-            $version
-        );
-        
         // Register our custom CSS that overrides and enhances the datepicker
         wp_register_style(
             'persian-elementor-datepicker-custom',
             PERSIAN_ELEMENTOR_URL . 'assets/css/datepicker-custom.css',
-            ['persian-elementor-datepicker'],
+            [],
             $version . '.' . time() // Add timestamp to bypass cache during development
         );
         
@@ -110,7 +102,6 @@ class Persian_Elementor_Form_Fields {
         );
         
         // Load assets in both front-end and editor
-        wp_enqueue_style('persian-elementor-datepicker');
         wp_enqueue_style('persian-elementor-datepicker-custom');
         wp_enqueue_script('persian-elementor-datepicker');
         wp_enqueue_script('persian-elementor-datepicker-init');
