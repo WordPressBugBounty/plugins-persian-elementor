@@ -5,7 +5,7 @@ Tags: elementor,persian,المنتور
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.7.9.1
+Stable tag: 2.7.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Changelog ==
+= 2.7.9.1 =
+حذف شدن js های غیر ضروری
+
 = 2.7.9.1 =
 * بهبود نمایش نقشه نشان در ویرایشگر المنتور
 * اضافه شدن پیش نمایش زنده برای تغییرات نقشه در ویرایشگر
