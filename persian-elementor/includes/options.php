@@ -83,6 +83,11 @@ function persian_elementor_settings_page(): void {
             'desc' => 'با فعال کردن این گزینه، ویجت نقشه نشان به المنتور اضافه می‌شود.',
             'icon' => 'dashicons-location-alt',
         ],
+        'efa-zarinpal-button' => [
+			'label' => 'ویجت دکمه زرین‌پال',
+            'desc' => 'با فعال کردن این گزینه، امکان اتصال به درگاه پرداخت زرین‌پال در المنتور اضافه می‌شود.',
+            'icon' => 'dashicons-money-alt',
+        ],
     ];
 
     $plugin_url = plugin_dir_url(dirname(__FILE__));
