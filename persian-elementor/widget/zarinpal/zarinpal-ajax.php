@@ -197,12 +197,13 @@ class ZarinPal_Ajax {
             <style>
                 .zarinpal-notification-container {
                     position: fixed;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
+                    top: 40px; /* Increased top margin */
+                    right: 20px; /* Positioned to the right */
+                    left: auto; /* Reset left positioning */
+                    transform: none; /* Remove horizontal centering */
                     z-index: 9999;
                     direction: rtl;
-                    text-align: center;
+                    text-align: right; /* Align text to the right */
                     min-width: 300px;
                     max-width: 90%;
                 }
@@ -213,8 +214,8 @@ class ZarinPal_Ajax {
                     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                     display: flex;
                     align-items: center;
-                    justify-content: flex-start;
-                    animation: zarinpal-notification-fadein 0.5s;
+                    justify-content: flex-start; /* Keep content aligned to start (right in RTL) */
+                    animation: zarinpal-notification-fadein 0.5s forwards; /* Use forwards to keep final state */
                     opacity: 0;
                 }
                 .zarinpal-notification-success {

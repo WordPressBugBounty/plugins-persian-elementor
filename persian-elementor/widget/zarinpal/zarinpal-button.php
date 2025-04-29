@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class ZarinPal_Button extends Widget_Base {
-	
+
 	/**
 	 * Get widget name.
 	 *
@@ -62,7 +62,7 @@ class ZarinPal_Button extends Widget_Base {
 	public function get_icon(): string {
 		return 'eicon-button';
 	}
-	
+
 	/**
 	 * Get widget categories.
 	 *
@@ -91,15 +91,17 @@ class ZarinPal_Button extends Widget_Base {
 
 	/**
 	 * Whether the widget requires inner wrapper.
+	 * We set this to true so Elementor adds the .elementor-widget-container div,
+	 * which is needed for alignment and potentially margins.
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @return bool Whether to optimize the DOM size.
+	 * @return bool Whether the widget requires an inner container.
 	 */
-	public function has_widget_inner_wrapper(): bool {
-		return false;
+	public function get_widget_wrapper_class(): string {
+		return parent::get_widget_wrapper_class() . ' elementor-widget-button'; // Add standard button widget class
 	}
-	
+
 	/**
 	 * Whether the widget is dynamic content.
 	 *
@@ -112,12 +114,20 @@ class ZarinPal_Button extends Widget_Base {
 	}
 
 	/**
-	 * Register ZarinPal button widget controls.
-	 *
-	 * Add input fields to allow the user to customize the widget settings.
+	 * Get custom help URL.
 	 *
 	 * @since 1.0.0
-	 * @access protected
+	 * @access public
+	 * @return string Widget help URL.
+	 */
+	public function get_custom_help_url() {
+		return 'https://zarinpal.com';
+	}
+
+	/**
+	 * Register Elementor controls for this widget.
+	 *
+	 * @since 1.0.0
 	 */
 	protected function register_controls(): void {
 		// Price and Payment Section
@@ -172,7 +182,7 @@ class ZarinPal_Button extends Widget_Base {
 				'description' => esc_html__('مبلغ را به هزار تومان وارد کنید (مثال: 10 = 10,000 تومان)', 'persian-elementor'),
 			]
 		);
-		
+
 		$this->add_control(
 			'product_quantity',
 			[
@@ -188,7 +198,7 @@ class ZarinPal_Button extends Widget_Base {
 				'description' => esc_html__('تعداد محصول را مشخص کنید.', 'persian-elementor'),
 			]
 		);
-		
+
 		$this->end_controls_section();
 
 		// Button Section (now includes options that were previously in "Additional Options")
@@ -311,10 +321,11 @@ class ZarinPal_Button extends Widget_Base {
 					],
 					'justify' => [
 						'title' => esc_html__('کشیده', 'persian-elementor'),
-						'icon' => 'eicon-text-align-justify',
+						'icon' => 'eicon-text-align-justify', // Justify applies to the button itself, not the wrapper alignment
 					],
 				],
-				'prefix_class' => 'elementor%s-align-',
+				'prefix_class' => 'elementor%s-align-', // This applies alignment to the widget wrapper
+				'default' => '', // Default alignment is usually handled by the column/container
 			]
 		);
 
@@ -322,11 +333,11 @@ class ZarinPal_Button extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'typography',
+				// Add the global typography setting
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_ACCENT,
 				],
-				// Apply button typography also to the notification message
-				'selector' => '{{WRAPPER}} .elementor-button, {{WRAPPER}} .zarinpal-notification .zarinpal-notification-content span',
+				'selector' => '{{WRAPPER}} .elementor-button', // Target the button directly
 			]
 		);
 
@@ -439,7 +450,7 @@ class ZarinPal_Button extends Widget_Base {
 			Group_Control_Border::get_type(),
 			[
 				'name' => 'border',
-				'selector' => '{{WRAPPER}} .elementor-button',
+				'selector' => '{{WRAPPER}} .elementor-button', // Target the button directly
 				'separator' => 'before',
 			]
 		);
@@ -451,7 +462,7 @@ class ZarinPal_Button extends Widget_Base {
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%', 'em'],
 				'selectors' => [
-					'{{WRAPPER}} .elementor-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};', // Target the button directly
 				],
 			]
 		);
@@ -463,6 +474,7 @@ class ZarinPal_Button extends Widget_Base {
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors' => [
+					// Apply padding to the button itself, not the wrapper
 					'{{WRAPPER}} .elementor-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 				'separator' => 'before',
@@ -483,6 +495,10 @@ class ZarinPal_Button extends Widget_Base {
 	 */
 	protected function render(): void {
 		$settings = $this->get_settings_for_display();
+
+		// Add wrapper class for alignment and potentially other styles
+		// The 'elementor-widget-container' is added automatically by Elementor
+		// The alignment class (e.g., 'elementor-align-center') is added via the 'align' control's prefix_class
 
 		if ('yes' === $settings['open_in_new_window']) {
 			$target = '_blank';
@@ -507,17 +523,20 @@ class ZarinPal_Button extends Widget_Base {
 
 		// Form attributes
 		$this->add_render_attribute([
-			'wrapper' => [
-				'class' => [
-					'elementor-button-wrapper',
-				],
-			],
 			'button' => [
 				'class' => [
-					'elementor-button',
-					'elementor-zarinpal-button',
+					'elementor-button', // Keep standard button class
+					'elementor-zarinpal-button', // Keep custom class if needed for specific JS/CSS
+					// Add justify class if selected
+					'justify' === $settings['align'] ? 'elementor-button--justify' : '',
 				],
 				'type' => 'submit',
+			],
+			'form' => [ // Add attributes for the form element
+				'action' => esc_url(admin_url('admin-ajax.php')),
+				'method' => 'post',
+				'target' => esc_attr($target),
+				'class' => 'elementor-zarinpal-form', // Add a class to the form if needed
 			],
 		]);
 
@@ -528,50 +547,54 @@ class ZarinPal_Button extends Widget_Base {
 		if (!empty($settings['hover_animation'])) {
 			$this->add_render_attribute('button', 'class', 'elementor-animation-' . $settings['hover_animation']);
 		}
+
+		// Add size class to the button if needed (though padding handles size)
+		// Example: $this->add_render_attribute( 'button', 'class', 'elementor-size-' . $settings['size'] );
+
 		?>
-		<div <?php $this->print_render_attribute_string('wrapper'); ?>>
-			<form action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>" method="post" target="<?php echo esc_attr($target); ?>">
-				<input type="hidden" name="action" value="zarinpal_payment_request" />
-				<input type="hidden" name="merchant_id" value="<?php echo esc_attr($settings['merchant_id']); ?>" />
-				<input type="hidden" name="amount" value="<?php echo esc_attr($total_price); ?>" />
-				<input type="hidden" name="description" value="<?php echo esc_attr($settings['product_name']) . ' (' . esc_attr($quantity) . ' ' . esc_html__('عدد', 'persian-elementor') . ')'; ?>" />
-				<input type="hidden" name="callback_url" value="<?php echo $callback_url; // Already escaped ?>" />
-				<input type="hidden" name="quantity" value="<?php echo esc_attr($quantity); ?>" />
-				<?php wp_nonce_field('zarinpal_payment_request', 'zarinpal_nonce'); ?>
+		
+		<form <?php $this->print_render_attribute_string('form'); ?>>
+			<input type="hidden" name="action" value="zarinpal_payment_request" />
+			<input type="hidden" name="merchant_id" value="<?php echo esc_attr($settings['merchant_id']); ?>" />
+			<input type="hidden" name="amount" value="<?php echo esc_attr($total_price); ?>" />
+			<input type="hidden" name="description" value="<?php echo esc_attr($settings['product_name']) . ' (' . esc_attr($quantity) . ' ' . esc_html__('عدد', 'persian-elementor') . ')'; ?>" />
+			<input type="hidden" name="callback_url" value="<?php echo $callback_url; // Already escaped ?>" />
+			<input type="hidden" name="quantity" value="<?php echo esc_attr($quantity); ?>" />
+			<?php wp_nonce_field('zarinpal_payment_request', 'zarinpal_nonce'); ?>
 
-				<button <?php $this->print_render_attribute_string('button'); ?>>
-					<span class="elementor-button-content-wrapper">
-						<?php if (! empty($settings['selected_icon']['value']) && 'left' === $settings['icon_align']) : ?>
-							<span class="elementor-button-icon elementor-align-icon-left">
-								<?php Icons_Manager::render_icon($settings['selected_icon']); ?>
-							</span>
-						<?php endif; ?>
-
-						<span class="elementor-button-text">
-							<?php if ('yes' === $settings['show_product_info_on_button']) : ?>
-								<span class="zarinpal-product-name">
-									<?php echo esc_html__('خرید', 'persian-elementor'); ?>
-									<?php echo esc_html($settings['product_name']); ?>
-									<?php if ($quantity > 1) : ?>
-										(<?php echo esc_html($quantity) . ' ' . esc_html__('عدد', 'persian-elementor'); ?>)
-									<?php endif; ?>
-								</span>
-								<span>-</span>
-								<span class="zarinpal-product-price"><?php echo esc_html($formatted_price); ?></span>
-							<?php else : ?>
-								<?php echo esc_html($settings['button_text']); ?>
-							<?php endif; ?>
+			<button <?php $this->print_render_attribute_string('button'); ?>>
+				<span class="elementor-button-content-wrapper">
+					<?php if (! empty($settings['selected_icon']['value']) && 'left' === $settings['icon_align']) : ?>
+						<span class="elementor-button-icon elementor-align-icon-left">
+							<?php Icons_Manager::render_icon($settings['selected_icon']); ?>
 						</span>
+					<?php endif; ?>
 
-						<?php if (! empty($settings['selected_icon']['value']) && 'right' === $settings['icon_align']) : ?>
-							<span class="elementor-button-icon elementor-align-icon-right">
-								<?php Icons_Manager::render_icon($settings['selected_icon']); ?>
+					<span class="elementor-button-text">
+						<?php if ('yes' === $settings['show_product_info_on_button']) : ?>
+							<span class="zarinpal-product-name">
+								<?php echo esc_html__('خرید', 'persian-elementor'); ?>
+								<?php echo esc_html($settings['product_name']); ?>
+								<?php if ($quantity > 1) : ?>
+									(<?php echo esc_html($quantity) . ' ' . esc_html__('عدد', 'persian-elementor'); ?>)
+								<?php endif; ?>
 							</span>
+							<span>-</span>
+							<span class="zarinpal-product-price"><?php echo esc_html($formatted_price); ?></span>
+						<?php else : ?>
+							<?php echo esc_html($settings['button_text']); ?>
 						<?php endif; ?>
 					</span>
-				</button>
-			</form>
-		</div>
+
+					<?php if (! empty($settings['selected_icon']['value']) && 'right' === $settings['icon_align']) : ?>
+						<span class="elementor-button-icon elementor-align-icon-right">
+							<?php Icons_Manager::render_icon($settings['selected_icon']); ?>
+						</span>
+					<?php endif; ?>
+				</span>
+			</button>
+		</form>
+		
 		<?php
 	}
 
@@ -595,11 +618,13 @@ class ZarinPal_Button extends Widget_Base {
 		// Note: In template we always use current page URL (handled server-side)
 		var callbackUrl = '#'; // Placeholder for template, actual URL generated server-side
 
-		view.addRenderAttribute('wrapper', 'class', 'elementor-button-wrapper');
+		// Remove the wrapper attribute, alignment is handled by prefix_class on the main wrapper
 		view.addRenderAttribute('button', {
 			'class': [
 				'elementor-button',
 				'elementor-zarinpal-button',
+				// Add justify class if selected
+				'justify' === settings.align ? 'elementor-button--justify' : '',
 			],
 			'type': 'submit'
 		});
@@ -612,49 +637,57 @@ class ZarinPal_Button extends Widget_Base {
 			view.addRenderAttribute('button', 'class', 'elementor-animation-' + settings.hover_animation);
 		}
 
+		view.addRenderAttribute('form', {
+			'action': '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+			'method': 'post',
+			'target': target,
+			'class': 'elementor-zarinpal-form',
+		});
+
+		// Define iconHTML *before* using it
 		var iconHTML = elementor.helpers.renderIcon(view, settings.selected_icon, { 'aria-hidden': true }, 'i', 'object');
 		#>
-		<div {{{ view.getRenderAttributeString('wrapper') }}}>
-			<form action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>" method="post" target="{{ target }}">
-				<input type="hidden" name="action" value="zarinpal_payment_request" />
-				<input type="hidden" name="merchant_id" value="{{ settings.merchant_id }}" />
-				<input type="hidden" name="amount" value="{{ totalPrice }}" />
-				<input type="hidden" name="description" value="{{ settings.product_name + ' (' + quantity + ' عدد)' }}" />
-				<input type="hidden" name="callback_url" value="{{ callbackUrl }}" />
-				<input type="hidden" name="quantity" value="{{ quantity }}" />
-				
-				<button {{{ view.getRenderAttributeString('button') }}}>
-					<span class="elementor-button-content-wrapper">
-						<# if (iconHTML.value && 'left' === settings.icon_align) { #>
-							<span class="elementor-button-icon elementor-align-icon-left">
-								{{{ iconHTML.value }}}
-							</span>
-						<# } #>
 
-						<span class="elementor-button-text">
-							<# if ('yes' === settings.show_product_info_on_button) { #>
-								<span class="zarinpal-product-name">
-									خرید {{ settings.product_name }}
-									<# if (quantity > 1) { #>
-										({{ quantity }} عدد)
-									<# } #>
-								</span>
-								<span>-</span>
-								<span class="zarinpal-product-price">{{ formattedPrice }}</span>
-							<# } else { #>
-								{{ settings.button_text }}
-							<# } #>
+		<form {{{ view.getRenderAttributeString('form') }}}>
+			<input type="hidden" name="action" value="zarinpal_payment_request" />
+			<input type="hidden" name="merchant_id" value="{{ settings.merchant_id }}" />
+			<input type="hidden" name="amount" value="{{ totalPrice }}" />
+			<input type="hidden" name="description" value="{{ settings.product_name + ' (' + quantity + ' عدد)' }}" />
+			<input type="hidden" name="callback_url" value="{{ callbackUrl }}" />
+			<input type="hidden" name="quantity" value="{{ quantity }}" />
+
+			<button {{{ view.getRenderAttributeString('button') }}}>
+				<span class="elementor-button-content-wrapper">
+					<# if (iconHTML.value && 'left' === settings.icon_align) { #>
+						<span class="elementor-button-icon elementor-align-icon-left">
+							{{{ iconHTML.value }}}
 						</span>
+					<# } #>
 
-						<# if (iconHTML.value && 'right' === settings.icon_align) { #>
-							<span class="elementor-button-icon elementor-align-icon-right">
-								{{{ iconHTML.value }}}
+					<span class="elementor-button-text">
+						<# if ('yes' === settings.show_product_info_on_button) { #>
+							<span class="zarinpal-product-name">
+								خرید {{ settings.product_name }}
+								<# if (quantity > 1) { #>
+									({{ quantity }} عدد)
+								<# } #>
 							</span>
+							<span>-</span>
+							<span class="zarinpal-product-price">{{ formattedPrice }}</span>
+						<# } else { #>
+							{{{ settings.button_text }}} <# /* Use triple braces for HTML entities */ #>
 						<# } #>
 					</span>
-				</button>
-			</form>
-		</div>
+
+					<# if (iconHTML.value && 'right' === settings.icon_align) { #>
+						<span class="elementor-button-icon elementor-align-icon-right">
+							{{{ iconHTML.value }}}
+						</span>
+					<# } #>
+				</span>
+			</button>
+		</form>
+
 		<?php
 	}
 }
