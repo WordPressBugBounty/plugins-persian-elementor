@@ -11,7 +11,7 @@ class PersianElementorCore {
     private static $instance = null;
     
     /** @var string Plugin version */
-    private const VERSION = '2.7.11.1';
+    private const VERSION = '2.7.11.2';
     
     /** @var array Default plugin options */
     private const DEFAULT_OPTIONS = [
