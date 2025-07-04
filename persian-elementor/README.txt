@@ -5,7 +5,7 @@ Tags: elementor,persian,المنتور
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.7.11.1
+Stable tag: 2.7.11.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,8 +118,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Changelog ==
+= 2.7.11.3 =
+* پشتیبانی از ترجمه نسخه 3.30 المنتور
+
 = 2.7.11.1 =
-* پشتیبانی از رجمه نسخه 3.29 المنتور
+* پشتیبانی از ترجمه نسخه 3.29 المنتور
 
 = 2.7.11 =
 * رفع مشکل مارجین در ویجت زرین پال
