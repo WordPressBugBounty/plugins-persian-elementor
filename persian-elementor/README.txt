@@ -5,7 +5,7 @@ Tags: elementor,persian,المنتور
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.7.11.3
+Stable tag: 2.7.11.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Changelog ==
+= 2.7.11.4 =
+* اضافه شدن 11 آیکون جدید شامل تامیین، کارآفرین، پست بانک، کشاورزی، آینده، توسعه تعاون، رسالت، سپه، پست، بلو و روبیکا.
+
 = 2.7.11.3 =
 * پشتیبانی از ترجمه نسخه 3.30 المنتور
 
