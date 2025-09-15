@@ -5,7 +5,7 @@ Tags: elementor,persian,المنتور
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.7.12
+Stable tag: 2.7.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Changelog ==
+= 2.7.13 =
+بروزرسانی ترجمه برای سازگاری با نسخه 3.32
+
 = 2.7.12 =
 * بهبود: بازسازی کامل ساختار فیلد تاریخ شمسی برای بهبود عملکرد و نگهداری آسان‌تر
 * بهبود: جداسازی منطق ثبت فیلدهای فرم از منطق اختصاصی تاریخ شمسی
